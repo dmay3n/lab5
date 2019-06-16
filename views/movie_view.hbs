@@ -1,0 +1,152 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Mayenflix</title>
+  <link href="/assets/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+  <div class="container">
+    <h2>Movies list</h2>
+        <button class="btn btn-success" data-toggle="modal" data-target="#myModalAdd">Add New</button>
+    <table class="table table-striped" id="mytable">
+      <thead>
+        <tr>
+          <th>Movie ID</th>
+          <th>Movie Name</th>
+          <th>Year</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+         {{#each results}}
+        <tr>
+          <td>{{ id }}</td>
+          <td>{{ name }}</td>
+          <td>{{ year }}</td>
+          <td>{{ description }}</td>
+          <td>
+            <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-name="{{ name }}" data-year="{{ year }}" data-description="{{ description }}" data-id="{{ id }}">Edit</a>
+            <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id="{{ id }}">Delete</a>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+ 
+    <!-- Modal Add Product-->
+      <form action="/save" method="post">
+        <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog" role="document">
+           <div class="modal-content">
+             <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">Add New Movie</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+               </button>
+             </div>
+             <div class="modal-body">
+               <div class="form-group">
+                   <input type="text" name="name" class="form-control" placeholder="Movie Name" required>
+               </div>
+ 
+               <div class="form-group">
+                   <input type="text" name="year" class="form-control" placeholder="Year" required>
+               </div>
+
+               <div class="form-group">
+                   <input type="text" name="description" class="form-control" placeholder="Description" required>
+               </div>
+             </div>
+             <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               <button type="submit" class="btn btn-primary">Save</button>
+             </div>
+           </div>
+         </div>
+        </div>
+     </form>
+ 
+     <!-- Modal Update Product-->
+   <form action="/update" method="post">
+       <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Edit Movie</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                  <input type="text" name="name" class="form-control name" placeholder="Movie Name" required>
+              </div>
+ 
+              <div class="form-group">
+                  <input type="text" name="year" class="form-control year" placeholder="Year" required>
+              </div>
+
+              <div class="form-group">
+                  <input type="text" name="description" class="form-control description" placeholder="Description" required>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <input type="hidden" name="id" class="product_id2">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Update</button>
+            </div>
+          </div>
+        </div>
+       </div>
+  </form>
+ 
+     <!-- Modal Delete Product-->
+      <form id="add-row-form" action="/delete" method="post">
+         <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+               <div class="modal-content">
+                   <div class="modal-header">
+                                        <h5 class="modal-title" id="myModalLabel">Delete Movie ):</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                   </div>
+                   <div class="modal-body">
+                                                 <strong>Are you sure to delete this movie?</strong>
+                   </div>
+                   <div class="modal-footer">
+                                            <input type="hidden" name="id" class="form-control product_id2" required>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Delete</button>
+                   </div>
+                    </div>
+            </div>
+         </div>
+     </form>
+ 
+<script src="/assets/js/jquery-3.3.1.js"></script>
+<script src="/assets/js/bootstrap.js"></script>
+<script>
+    $(document).ready(function(){
+            //showing data to add modal      
+        $('#mytable').on('click','.edit',function(){
+        var id = $(this).attr('data-id');
+        var name = $(this).attr('data-name');
+        var year = $(this).attr('data-year');
+        var description = $(this).attr('data-description');
+        $('#EditModal').modal('show');
+        $('.description').val(description);
+        $('.name').val(name);
+        $('.year').val(year);
+        $('.product_id2').val(id);
+      });
+            //showing delete record modal
+        $('#mytable').on('click','.delete',function(){
+        var id = $(this).attr('data-id');
+        $('#DeleteModal').modal('show');
+        $('.product_id2').val(id);
+      });
+ 
+    });
+</script>
+</body>
+</html>
