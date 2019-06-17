@@ -1,0 +1,22 @@
+  version: '3.2'
+  services:
+    node:
+      build: ./
+      ports:
+        - "8000:8000"
+      depends_on:
+        - db
+      environment:
+        - PORT=8000
+        - DATABASE_HOST=db
+        - DATABASE_PASSWORD=holiholi
+        - EGG_SERVER_ENV=local
+        - NODE_ENV=development
+      # command: ["./wait-for-it.sh", "db:3306", "--", "npm run docker"]
+    db:
+      build: ./db
+      environment:
+        - MYSQL_ROOT_PASSWORD=holiholi
+        - MYSQL_DATABASE=moviesDB
+        - MYSQL_USER=admin
+        - MYSQL_PASSWORD=holiholi
